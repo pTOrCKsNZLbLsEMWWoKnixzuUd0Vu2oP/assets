@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT_DIR = '.'; 
+const ROOT_DIR = '.';
 
 function scanDir(currentPath, fileList = []) {
   const entries = fs.readdirSync(currentPath, { withFileTypes: true });
@@ -20,20 +20,24 @@ function scanDir(currentPath, fileList = []) {
   return fileList;
 }
 
-const allFiles = scanDir(ROOT_DIR).filter(file =>
-  !file.startsWith('.github/') && 
-  !file.endsWith('index.json') && 
-  !file.startsWith('node_modules/')
-);
+const scannedFiles = scanDir(ROOT_DIR);
+
+const isExcluded = (file) =>
+  file.startsWith('.github/') ||
+  file.startsWith('node_modules/') ||
+  file === 'index.json';
+
+const filteredFiles = scannedFiles.filter(file => !isExcluded(file));
 
 const result = {
   updatedAt: new Date().toISOString(),
-  files: allFiles,
+  files: filteredFiles,
   byExtension: {}
 };
 
-for (const file of allFiles) {
-  const ext = path.extname(file).slice(1); 
+for (const file of filteredFiles) {
+  const ext = path.extname(file).slice(1);
+  if (!ext) continue;
   if (!result.byExtension[ext]) {
     result.byExtension[ext] = [];
   }
@@ -43,4 +47,4 @@ for (const file of allFiles) {
 const outputPath = path.join(ROOT_DIR, 'index.json');
 fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
 
-console.log(`✅ index.json created with ${allFiles.length} files.`);
+console.log(`✅ index.json created with ${filteredFiles.length} files.`);
