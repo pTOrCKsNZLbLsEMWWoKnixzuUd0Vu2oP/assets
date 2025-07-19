@@ -3,16 +3,19 @@ name: Generate Index
 on:
   push:
     branches:
-      - main 
+      - main
     paths:
       - '**'
+
+permissions:
+  contents: write  # ← 꼭 있어야 git push 가능
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Setup Node.js
