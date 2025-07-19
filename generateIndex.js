@@ -21,8 +21,8 @@ function scanDir(currentPath, fileList = []) {
 }
 
 const scannedFiles = scanDir(ROOT_DIR);
-
 const isExcluded = (file) =>
+  file.startsWith('.git/') ||
   file.startsWith('.github/') ||
   file.startsWith('node_modules/') ||
   file === 'index.json';
@@ -30,21 +30,10 @@ const isExcluded = (file) =>
 const filteredFiles = scannedFiles.filter(file => !isExcluded(file));
 
 const result = {
-  updatedAt: new Date().toISOString(),
-  files: filteredFiles,
-  byExtension: {}
+  updatedAt: new Date().toISOString()
 };
-
-for (const file of filteredFiles) {
-  const ext = path.extname(file).slice(1);
-  if (!ext) continue;
-  if (!result.byExtension[ext]) {
-    result.byExtension[ext] = [];
-  }
-  result.byExtension[ext].push(file);
-}
 
 const outputPath = path.join(ROOT_DIR, 'index.json');
 fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
 
-console.log(`✅ index.json created with ${filteredFiles.length} files.`);
+console.log(`✅ index.json created (files and byExtension omitted).`);
