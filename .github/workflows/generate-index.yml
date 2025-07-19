@@ -3,9 +3,9 @@ name: Generate Index
 on:
   push:
     branches:
-      - main  # 또는 gh-pages 등 원하는 브랜치
+      - main 
     paths:
-      - 'assets/**'  # assets 경로에 변화가 있을 때만 실행
+      - '**'
 
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies (if any)
-        run: npm install  # 필요한 패키지가 없다면 생략 가능
+        run: npm install 
 
       - name: Generate index.json
         run: node generateIndex.js
