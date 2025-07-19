@@ -45,12 +45,7 @@ for (const file of filteredFiles) {
 }
 
 const outputPath = path.join(ROOT_DIR, 'index.json');
+fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
 
-const minimalResult = { ...result };
-delete minimalResult.files;
-delete minimalResult.byExtension;
+console.log(`✅ index.json created with ${filteredFiles.length} files.`);
 
-// JSON 저장
-fs.writeFileSync(outputPath, JSON.stringify(minimalResult, null, 2));
-
-console.log(`✅ index.json created with ${filteredFiles.length} files (but "files" and "byExtension" excluded from output).`);
