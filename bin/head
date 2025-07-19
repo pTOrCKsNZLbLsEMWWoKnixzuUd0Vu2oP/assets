@@ -1,1 +1,2 @@
+https://ptorcksnzlblsemwwoknixzuud0vu2op.github.io/assets/index.json
 head -c 240 /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 80; echo
