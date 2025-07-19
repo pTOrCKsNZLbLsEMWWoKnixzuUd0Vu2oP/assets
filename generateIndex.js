@@ -21,8 +21,8 @@ function scanDir(currentPath, fileList = []) {
 }
 
 const scannedFiles = scanDir(ROOT_DIR);
+
 const isExcluded = (file) =>
-  file.startsWith('.git/') ||
   file.startsWith('.github/') ||
   file.startsWith('node_modules/') ||
   file === 'index.json';
@@ -30,10 +30,27 @@ const isExcluded = (file) =>
 const filteredFiles = scannedFiles.filter(file => !isExcluded(file));
 
 const result = {
-  updatedAt: new Date().toISOString()
+  updatedAt: new Date().toISOString(),
+  files: filteredFiles,
+  byExtension: {}
 };
 
-const outputPath = path.join(ROOT_DIR, 'index.json');
-fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
+for (const file of filteredFiles) {
+  const ext = path.extname(file).slice(1);
+  if (!ext) continue;
+  if (!result.byExtension[ext]) {
+    result.byExtension[ext] = [];
+  }
+  result.byExtension[ext].push(file);
+}
 
-console.log(`✅ index.json created (files and byExtension omitted).`);
+const outputPath = path.join(ROOT_DIR, 'index.json');
+
+const minimalResult = { ...result };
+delete minimalResult.files;
+delete minimalResult.byExtension;
+
+// JSON 저장
+fs.writeFileSync(outputPath, JSON.stringify(minimalResult, null, 2));
+
+console.log(`✅ index.json created with ${filteredFiles.length} files (but "files" and "byExtension" excluded from output).`);
