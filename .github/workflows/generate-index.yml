@@ -3,25 +3,22 @@ name: Generate Index
 on:
   push:
     branches:
-      - main 
+      - main  # 사용 중인 브랜치에 맞게 수정
     paths:
-      - '**'
+      - '**'  # 모든 파일 변경에 반응
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-
-      - name: Install Dependencies (if any)
-        run: npm install 
 
       - name: Generate index.json
         run: node generateIndex.js
