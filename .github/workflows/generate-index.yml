@@ -3,9 +3,9 @@ name: Generate Index
 on:
   push:
     branches:
-      - main  # 사용 중인 브랜치에 맞게 수정
+      - main 
     paths:
-      - '**'  # 모든 파일 변경에 반응
+      - '**'
 
 jobs:
   build:
