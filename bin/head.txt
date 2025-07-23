@@ -1,0 +1,14 @@
+https://ptorcksnzlblsemwwoknixzuud0vu2op.github.io/assets/index.json
+
+head -c 240 /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 80; echo
+
+난수 폴더 생성
+원하는 이름(BASE_NAME), 경로(TARGET_DIR), 개수(COUNT)를 넣어 실행
+./create_dirs.sh <_IGNORE_> <TARGET_DIR> <COUNT>
+./create_dirs.sh foo fbx/nox/test 10
+
+
+난수 폴더 생성 후 파일 이동
+SOURCE_DIR : 이동전 폴더 // DEST_DIR : 이동 후 폴더
+./split_into_random_dirs.sh <SOURCE_DIR> <DEST_DIR>
+./split_into_random_dirs.sh /c/Users/JohnDoe/Desktop/FBX fbx/nox/test
